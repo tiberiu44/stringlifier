@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2020 Adobe Systems Incorporated. All rights reserved.
+# Copyright (c) 2025 Adobe Systems Incorporated. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -215,7 +215,7 @@ def _make_batches(dataset, batch_size=32):
 
 def _get_targets(y, encodings):
     max_len = max([len(yy) for yy in y])
-    y_t = np.zeros((len(y), max_len), dtype=np.long)
+    y_t = np.zeros((len(y), max_len), dtype=np.int64)
     for i in range(len(y)):
         for j in range(max_len):
             if j < len(y[i]):
@@ -256,7 +256,7 @@ def _start_train(params):
     model.to(params.device)
     if params.resume:
         model.load('{0}.last'.format(params.output_base))
-    optimizer = torch.optim.Adam(model.parameters())
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
     criterion_t = torch.nn.CrossEntropyLoss(ignore_index=0)
 
     patience_left = params.patience
