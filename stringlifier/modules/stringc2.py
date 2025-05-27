@@ -256,7 +256,7 @@ def _start_train(params):
     model.to(params.device)
     if params.resume:
         model.load('{0}.last'.format(params.output_base))
-    optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
+    optimizer = torch.optim.Adam(model.parameters(), lr=params.lr)
     criterion_t = torch.nn.CrossEntropyLoss(ignore_index=0)
 
     patience_left = params.patience
@@ -372,6 +372,7 @@ if __name__ == '__main__':
     parser.add_option('--patience', action='store', dest='patience', type='int', default=20, help='(default=20)')
     parser.add_option('--batch-size', action='store', dest='batch_size', default=32, type='int', help='(default=32)')
     parser.add_option('--device', action='store', dest='device', default='cpu')
+    parser.add_option('--lr', action='store', dest='lr', type='int', default=1e-4, help='(default=1e-4)')
 
     (params, _) = parser.parse_args(sys.argv)
 
